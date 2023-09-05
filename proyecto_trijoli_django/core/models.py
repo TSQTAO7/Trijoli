@@ -1,11 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class ArticleType(models.Model):
+    nombre_tipo = models.CharField(max_length=30, verbose_name='Nombre del Tipo de Artículo')
+
+    class Meta:
+        verbose_name_plural = 'Tipos de Artículos'
+        verbose_name = 'Tipo de Artículo'
+        db_table = 'article_type'
+        ordering = ['id']
+
+    def __str__(self):
+        return self.nombre_tipo
+
 class Article(models.Model):
     nombre = models.CharField(max_length=30, verbose_name='Nombre')
-    estado_actividad = models.CharField(max_length=30, verbose_name='Estado de Actividad')
-    tipo_articulo = models.CharField(max_length=30, verbose_name='Tipo de Artículo')
-    estado_calidad = models.CharField(max_length=30, verbose_name='Estado de Calidad')
+    descripcion = models.TextField(max_length=100, verbose_name='Descripción', default='')
+    tipo_articulo = models.ForeignKey(ArticleType, on_delete=models.CASCADE, verbose_name='Tipo de Artículo')
     id_empleado_fk_articulo = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Empleado')
 
     class Meta:
@@ -36,7 +47,7 @@ class DetailDonation(models.Model):
     id_donante_fk = models.ForeignKey(Donor, on_delete=models.CASCADE, verbose_name='Donante')
     cantidad = models.IntegerField(verbose_name='Cantidad')
     fecha_entrada = models.DateField(verbose_name='Fecha de Entrada')
-    descripcion = models.CharField(max_length=100, verbose_name='Descripción')
+    descripcion = models.TextField(max_length=100, verbose_name='Descripción')
 
     class Meta:
         verbose_name_plural = 'Detalles de Donaciones'
@@ -49,7 +60,7 @@ class DetailDonation(models.Model):
 
 class Destiny(models.Model):
     fecha_entrega = models.DateField(verbose_name='Fecha de Entrega')
-    articulo_entregado = models.CharField(max_length=30, verbose_name='Artículo Entregado')
+    id_articulo_fk = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='Artículo', default=None)
 
     class Meta:
         verbose_name_plural = 'Destinos'
@@ -61,10 +72,10 @@ class Destiny(models.Model):
         return f"Destino - {self.articulo_entregado}"
 
 class DetailDelivery(models.Model):
-    id_articulofk = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='Artículo')
+    id_articulofk = models.ManyToManyField(Article, verbose_name='Artículos')
     id_entrega_fk = models.ForeignKey(Destiny, on_delete=models.CASCADE, verbose_name='Entrega')
     cantidad = models.IntegerField(verbose_name='Cantidad')
-    descripcion = models.CharField(max_length=100, verbose_name='Descripción')
+    descripcion = models.TextField(max_length=100, verbose_name='Descripción')
 
     class Meta:
         verbose_name_plural = 'Detalles de Entrega'
@@ -73,7 +84,7 @@ class DetailDelivery(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return f"{self.id_articulofk} - {self.id_entrega_fk}"
+        return f"{', '.join(str(articulo) for articulo in self.id_articulofk.all())} - {self.id_entrega_fk}"
 
 class Sponsor(models.Model):
     nombre_patrocinador = models.CharField(max_length=30, verbose_name='Nombre del Patrocinador')
@@ -103,14 +114,9 @@ class Event(models.Model):
         return f"Evento - {self.ubicacion}"
 
 class DetailEvent(models.Model):
-    idarticulo_fk = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='Artículo')
+    idarticulo_fk = models.ManyToManyField(Article, verbose_name='Artículos')
     id_evento_fk = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name='Evento')
-    ropa_evento = models.BooleanField(verbose_name='Ropa en el Evento')
-    cantidad_ropa = models.IntegerField(null=True, verbose_name='Cantidad de Ropa')
-    comida_evento = models.BooleanField(verbose_name='Comida en el Evento')
-    cantidad_comida = models.IntegerField(null=True, verbose_name='Cantidad de Comida')
-    tipo_comida = models.CharField(max_length=30, null=True, verbose_name='Tipo de Comida')
-    descripcion = models.CharField(max_length=100, verbose_name='Descripción')
+    descripcion = models.TextField(max_length=100, verbose_name='Descripción')
 
     class Meta:
         verbose_name_plural = 'Detalles de Eventos'
@@ -119,4 +125,4 @@ class DetailEvent(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return f"{self.id_evento_fk} - {self.idarticulo_fk}"
+        return f"{', '.join(str(articulo) for articulo in self.idarticulo_fk.all())} - {self.id_evento_fk}"
