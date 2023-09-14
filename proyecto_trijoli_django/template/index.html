@@ -1,0 +1,255 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/Dashboard.css' %}">
+    <!-- Sidebar -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Trijoli</title>
+</head>
+<body>
+  
+<nav class="sidebar close">
+    <header>
+        <div class="image-text">
+          <span class="image">
+            <img src="{% static 'images/Logo.png' %}" alt="logo">
+          </span>
+          <div class="text header-text">
+            <span class="name">Trijoli</span>
+            <span class="profession">Esencia y Mensaje <br> del cielo <br> para el mundo</span>
+          </div>
+        </div>
+        <i class='bx bx-chevron-right toggle'></i>
+    </header>
+
+    <div class="menu-bar">
+      <div class="menu">
+        <li class="search-box">
+            <i class='bx bx-search icon'></i>
+            <form action="busqueda.php" method="post">
+            <input type="text" name="busqueda" placeholder="Search...">
+            </form>
+        </li>
+          <li class="nav-link">
+            <a href="{% url 'index' %}">
+              <i class='bx bx-home-alt icon' ></i>
+              <span class="text nav-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{% url 'donante' %}">
+              <i class='bx bx-user-pin icon' ></i>
+              <span class="text nav-text">Donante</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{% url 'articulo' %}">
+              <i class='bx bx-baguette icon'></i>
+              <span class="text nav-text">Articulo</span>
+            </a>
+          </li>
+          
+          <li class="nav-link">
+            <a href="{% url 'Insert' %}">
+              <i class='bx bx-group icon'></i>
+              <span class="text nav-text">Insercion</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="{% url 'dest' %}">
+              <i class='bx bx-package icon'></i>
+              <span class="text nav-text">Destino</span>
+            </a>
+          </li>
+          
+          <li class="nav-link">
+            <a href="{% url 'Empleadousu' %}">
+              <i class='bx bx-user icon'></i>
+              <span class="text nav-text">Empleado</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="{% url 'brigada' %}">
+              <i class='bx bx-shield-plus icon'></i>
+              <span class="text nav-text">Eventos</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="{% url 'Detalle_donacion' %}">
+              <i class='bx bx-filter-alt icon' ></i>
+              <span class="text nav-text">Filtro</span>
+            </a>
+          </li>
+          
+      </div>
+      <div class="bottom-content">
+        <li class="">
+          <a href="#" onclick="cerrarSesion()">
+            <i class='bx bx-log-out icon'></i>
+            <span class="text nav-text">Logout</span>
+          </a>
+        </li>
+
+        <li class="mode">
+          <div class="moon-sun">
+            <i class='bx bx-moon icon moon'></i>
+            <i class='bx bx-sun icon sun'></i>
+          </div>
+          <span class="mode-text text">Dark Mode </span>
+
+          <div class="toggle-switch">
+            <span class="switch">
+              
+            </span>
+          </div>
+        </li>
+
+      </div>
+    </div>
+  </nav>
+<section class="home">
+  <div class="text">
+          <div>
+          <div class="logocorp">
+            <div>
+              <p><b> Fundacion Trigo y Ajonjoli</b></p>
+            </div>
+            <div>
+              <img src="{% static 'images/Logo.png' %}" alt="">
+            </div>
+          </div>
+          <div class="bar">
+            <a href="#" class="bar-button"><i class='bx bx-user-pin icon' ></i> Donantes</a>
+            <a href="#" class="bar-button"><i class='bx bx-baguette icon'></i> Articulos</a>
+            <a href="#" class="bar-button"><i class='bx bx-shield-plus icon'></i> Eventos</a>
+          </div>
+          <div class="hidden-section">
+            <div class="form-container">
+              <button id="openModalBtn" class="bar-button"><i class='bx bx-user-plus icon'></i> Agregar Donante</button>
+            </div>
+            <div class="table-container">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>CORREO</th>
+                    <th></th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+                  <!-- Los datos de la tabla se generan dinámicamente en PHP -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="mission-vision-container">
+            <div class="mission">
+              <h3>Misión:</h3>
+              <h5>
+                Más que una organización de beneficencia es un grupo de personas que apartan de su vida
+                un instante para ser dedicada a cambiar nuestra sociedad mediante numerosas iniciativas
+                diseñadas para ayudar a los necesitados. Juntos podemos marcar una diferencia en el
+                mundo para las futuras generaciones. Ya sea que contribuya con donativos o como
+                voluntario.
+              </h5>
+            </div>
+            <div class="map-container">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8593.652305809486!2d28.221915329994903!3d43.401078713414606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9efbc589069d%3A0x5e185619e3f6eff4!2zRXN0YWNpw7NuIFBlcmRvbW8sIEJvc2EsIEJvZ290w6E!5e1!3m2!1ses!2sco!4v1678972295740!5m2!1ses!2sco" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="vision">
+              <h3>Visión:</h3>
+              <h5>
+                En el 2025 ser la fundación más grande con personas rehabilitadas y alcanzadas para Cristo
+                y así reincorporarlos a la sociedad nuevamente y llevar una vida digna con familia y hogar
+                estable.
+              </h5>
+            </div>
+          </div>
+        </div>
+
+  </div>
+
+  
+<footer class="footer">
+  <div class="text">
+      <div >
+        <h2 ><b>Trijoli</b> Esencia y mensaje del cielo para el mundo</h5>
+
+            <div>
+                <div>
+                  <b> somos una empresa encargada de la distribución de productos de primera necesidad de la canasta familiar, ubicada en el barrio el Perdomo, en la localidad de Ciudad Bolívar. Esta empresa busca mejorar los servicios de venta al público, de manera digital, y asi satisfacer las necesidades del cliente</b>
+                </div>
+            </div>
+        </div>
+      </div>
+     </div>
+ </div>
+</footer>
+
+</section>
+<div id="myModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <!-- Formulario para agregar donante -->
+    <form id="donanteForm" action="insercion.php" method="POST">
+      <div class="form-group">
+        <label for="nombre2">Nombre:</label>
+        <input type="text" id="Nom1" name="Nom1" required>
+      </div>
+      <div class="form-group">
+        <label for="apellido2">Correo:</label>
+        <input type="email" id="Cor" name="Cor" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" name="submit_donante">Enviar</button>
+      </div>
+    </form>
+  </div>
+</div>
+ 
+
+
+  <script src="{% static 'js/Dashboard.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+  // JavaScript para mostrar/ocultar la ventana modal
+  const modal = document.getElementById("myModal");
+  const openModalBtn = document.getElementById("openModalBtn");
+  const closeModalBtn = document.getElementsByClassName("close")[0];
+
+  // Abrir la ventana modal
+  openModalBtn.onclick = function () {
+    modal.style.display = "block";
+  };
+
+  // Cerrar la ventana modal
+  closeModalBtn.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // Cerrar la ventana modal haciendo clic fuera de ella
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // Cerrar la ventana modal al cargar la página
+  window.onload = function () {
+    modal.style.display = "none";
+  };
+</script>
+</body>
+</html>
